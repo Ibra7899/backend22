@@ -16,13 +16,23 @@ router.get('/listproducts', productController.getAllProducts);
 router.get('/listproduct/:id', productController.getProductById);
 
 // PUT: Update a product (Admin only)
-router.put('/update/:id', auth.requireSignin, auth.isAdmin, productController.updateProduct);
+router.put('/update/:id', auth.requireSignin, productController.updateProduct);
 
 // DELETE: Delete a product (Admin only)
-router.delete('/delete/:id', auth.requireSignin, auth.isAdmin, productController.deleteProduct);
+router.delete('/delete/:id', auth.requireSignin, productController.deleteProduct);
 
 // GET: Search products
 router.get('/search', productController.searchProducts);
 
+// Route to add a question to a product
+router.post('/add-question/:productId', productController.addQuestionToProduct);
+
+
+// POST: Answer a question on a product
+router.post('/answer-question/:productId/:questionId', auth.requireSignin, productController.answerQuestion);
+
+router.get('/myproducts', auth.requireSignin, productController.getProductsByOwner);
+
+router.put('/togglestatus/:id', productController.toggleProductStatus);
 
 module.exports = router;
